@@ -1,36 +1,34 @@
-import { Card, Hand, Rank, Suit } from '$lib/poker'
+import { Ace, King, Queen, Jack, Ten, Nine, Eight, Seven, Six, Five, Four, Three, Two, Hand } from '$lib/poker'
 
 describe('High Card', () => {
-  let hand: Hand
-  let winningHand: Hand
-  let losingHand: Hand
+  let lowHand: Hand
+  let highHand: Hand
 
-  beforeEach(() => {
-    hand = new Hand([
-      new Card(Rank.KING, Suit.HEARTS),
-      new Card(Rank.TWO, Suit.SPADES),
-      new Card(Rank.FOUR, Suit.CLUBS),
-      new Card(Rank.SIX, Suit.DIAMONDS),
-      new Card(Rank.EIGHT, Suit.HEARTS)
-    ])
-
-    winningHand = new Hand([
-      new Card(Rank.ACE, Suit.HEARTS),
-      new Card(Rank.KING, Suit.SPADES),
-      new Card(Rank.QUEEN, Suit.CLUBS),
-      new Card(Rank.JACK, Suit.DIAMONDS),
-      new Card(Rank.TEN, Suit.HEARTS)
-    ])
-
-    losingHand = new Hand([
-      new Card(Rank.QUEEN, Suit.HEARTS),
-      new Card(Rank.THREE, Suit.SPADES),
-      new Card(Rank.FIVE, Suit.CLUBS),
-      new Card(Rank.SEVEN, Suit.DIAMONDS),
-      new Card(Rank.NINE, Suit.HEARTS)
-    ])
+  when('comparing identical hands', () => {
+    beforeEach(() => {
+      lowHand = new Hand([King.of.Hearts, Two.of.Spades, Four.of.Clubs, Six.of.Diamonds, Eight.of.Hearts])
+      highHand = new Hand([King.of.Hearts, Two.of.Spades, Four.of.Clubs, Six.of.Diamonds, Eight.of.Hearts])
+    })
+    it('is a tie', () => expect(lowHand.compareTo(highHand)).toBeZero())
   })
 
-  it('wins against a lower high card', () => expect(hand.compareTo(losingHand)).toBePositive())
-  it('loses against a higher high card', () => expect(hand.compareTo(winningHand)).toBeNegative())
+  when('comparing hands with different high cards', () => {
+    beforeEach(() => {
+      lowHand = new Hand([King.of.Hearts, Two.of.Spades, Four.of.Clubs, Six.of.Diamonds, Eight.of.Hearts])
+      highHand = new Hand([Ace.of.Hearts, King.of.Spades, Queen.of.Clubs, Jack.of.Diamonds, Ten.of.Hearts])
+    })
+
+    it('wins against a lower high card', () => expect(highHand.compareTo(lowHand)).toBePositive())
+    it('loses against a higher high card', () => expect(lowHand.compareTo(highHand)).toBeNegative())
+  })
+
+  when('comparing hands with the same high card', () => {
+    beforeEach(() => {
+      lowHand = new Hand([King.of.Spades, Two.of.Spades, Four.of.Clubs, Six.of.Diamonds, Eight.of.Hearts])
+      highHand = new Hand([King.of.Spades, Three.of.Clubs, Four.of.Diamonds, Six.of.Hearts, Eight.of.Spades])
+    })
+
+    it('wins against a lower high card', () => expect(highHand.compareTo(lowHand)).toBePositive())
+    it('loses against a higher high card', () => expect(lowHand.compareTo(highHand)).toBeNegative())
+  })
 })
