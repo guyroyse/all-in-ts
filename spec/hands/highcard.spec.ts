@@ -1,4 +1,5 @@
-import { Ace, King, Queen, Jack, Ten, Nine, Eight, Seven, Six, Five, Four, Three, Two, Hand } from '$lib/poker'
+import { Ace, King, Queen, Jack, Ten, Nine, Eight, Seven, Six, Five, Four, Three, Two } from '$lib/poker'
+import { Hand } from '$lib/poker'
 
 describe('High Card', () => {
   let lowHand: Hand
@@ -26,6 +27,16 @@ describe('High Card', () => {
     beforeEach(() => {
       lowHand = new Hand([King.of.Spades, Two.of.Spades, Four.of.Clubs, Six.of.Diamonds, Eight.of.Hearts])
       highHand = new Hand([King.of.Spades, Three.of.Clubs, Four.of.Diamonds, Six.of.Hearts, Eight.of.Spades])
+    })
+
+    it('wins against a lower high card', () => expect(highHand.compareTo(lowHand)).toBePositive())
+    it('loses against a higher high card', () => expect(lowHand.compareTo(highHand)).toBeNegative())
+  })
+
+  when('comparing hands with all cards the same except the last', () => {
+    beforeEach(() => {
+      lowHand = new Hand([King.of.Spades, Two.of.Spades, Four.of.Clubs, Six.of.Diamonds, Eight.of.Hearts])
+      highHand = new Hand([King.of.Spades, Two.of.Spades, Four.of.Clubs, Six.of.Diamonds, Ace.of.Hearts])
     })
 
     it('wins against a lower high card', () => expect(highHand.compareTo(lowHand)).toBePositive())

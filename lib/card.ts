@@ -24,7 +24,7 @@ class CardBuilder {
   }
 
   get Spades() {
-    return new Card(this.rank, Suit.HEARTS)
+    return new Card(this.rank, Suit.SPADES)
   }
 
   get Hearts() {
