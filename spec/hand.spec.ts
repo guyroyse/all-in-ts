@@ -13,6 +13,7 @@ describe('Hand', () => {
   let fullHouse: Hand
   let fourOfAKind: Hand
   let straightFlush: Hand
+  let aceLowStraightFlush: Hand
   let royalFlush: Hand
   let fiveOfAKind: Hand
 
@@ -28,6 +29,7 @@ describe('Hand', () => {
     fullHouse = new Hand([King.of.Spades, King.of.Hearts, King.of.Diamonds, Six.of.Clubs, Six.of.Hearts])
     fourOfAKind = new Hand([King.of.Spades, King.of.Hearts, King.of.Diamonds, King.of.Clubs, Six.of.Hearts])
     straightFlush = new Hand([Ten.of.Hearts, Nine.of.Hearts, Eight.of.Hearts, Seven.of.Hearts, Six.of.Hearts])
+    aceLowStraightFlush = new Hand([Five.of.Hearts, Four.of.Hearts, Three.of.Hearts, Two.of.Hearts, Ace.of.Hearts])
     royalFlush = new Hand([Ace.of.Hearts, King.of.Hearts, Queen.of.Hearts, Jack.of.Hearts, Ten.of.Hearts])
     fiveOfAKind = new Hand([King.of.Spades, King.of.Hearts, King.of.Hearts, King.of.Diamonds, King.of.Clubs])
   })
@@ -46,6 +48,7 @@ describe('Hand', () => {
   it('identifies a full house', () => expect(fullHouse.rank).toBe(HandRank.FULL_HOUSE))
   it('identifies four of a kind', () => expect(fourOfAKind.rank).toBe(HandRank.FOUR_OF_A_KIND))
   it('identifies a straight flush', () => expect(straightFlush.rank).toBe(HandRank.STRAIGHT_FLUSH))
+  it('identifies an ace low straight flush', () => expect(aceLowStraightFlush.rank).toBe(HandRank.STRAIGHT_FLUSH))
   it('identifies a royal flush', () => expect(royalFlush.rank).toBe(HandRank.ROYAL_FLUSH))
   it('identifies five of a kind', () => expect(fiveOfAKind.rank).toBe(HandRank.FIVE_OF_A_KIND))
 
