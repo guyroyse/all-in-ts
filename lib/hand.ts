@@ -39,7 +39,7 @@ export class Hand {
   }
 
   private isFiveOfAKind() {
-    return false
+    return this.isOfAKind(5)
   }
 
   private isRoyalFlush() {
@@ -51,11 +51,11 @@ export class Hand {
   }
 
   private isFourOfAKind() {
-    return false
+    return this.isOfAKind(4)
   }
 
   private isFullHouse() {
-    return false
+    return this.isThreeOfAKind() && this.isPair()
   }
 
   private isFlush() {
@@ -69,7 +69,6 @@ export class Hand {
 
   private isStraight() {
     for (let i = 0; i < this.cards.length - 1; i++) {
-      const firstCard = this.cards[0] as Card
       const cardOne = this.cards[i] as Card
       const cardTwo = this.cards[i + 1] as Card
       if (cardOne.rank === Rank.ACE && cardTwo.rank === Rank.FIVE) continue
@@ -79,30 +78,35 @@ export class Hand {
   }
 
   private isThreeOfAKind() {
-    for (let i = 0; i < this.cards.length - 2; i++) {
-      const cardOne = this.cards[i] as Card
-      const cardTwo = this.cards[i + 1] as Card
-      const cardThree = this.cards[i + 2] as Card
-      if (cardOne.rank === cardTwo.rank && cardTwo.rank === cardThree.rank) return true
+    return this.isOfAKind(3)
+  }
+
+  private isTwoPair() {
+    let pairCount = 0
+    for (let count of this.rankHistogram.values()) {
+      if (count === 2) pairCount++
+    }
+    return pairCount === 2
+  }
+
+  private isPair() {
+    return this.isOfAKind(2)
+  }
+
+  private isOfAKind(n: number) {
+    for (let count of this.rankHistogram.values()) {
+      if (count === n) return true
     }
     return false
   }
 
-  private isTwoPair() {
-    return this.countPairs() === 2
-  }
-
-  private isPair() {
-    return this.countPairs() === 1
-  }
-
-  private countPairs() {
-    let pairCount = 0
-    for (let i = 0; i < this.cards.length - 1; i++) {
-      const cardOne = this.cards[i] as Card
-      const cardTwo = this.cards[i + 1] as Card
-      if (cardOne.rank === cardTwo.rank) pairCount++
+  private get rankHistogram() {
+    const rankHistogram = new Map<Rank, number>()
+    for (let card of this.cards) {
+      const rank = card.rank
+      const count = rankHistogram.get(rank) || 0
+      rankHistogram.set(rank, count + 1)
     }
-    return pairCount
+    return rankHistogram
   }
 }
