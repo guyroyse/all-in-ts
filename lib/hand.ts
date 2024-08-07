@@ -15,6 +15,12 @@ export class Hand {
 
   compareTo(that: Hand) {
     if (this.rank !== that.rank) return this.rank - that.rank
+    if (this.rank === HandRank.HIGH_CARD) return this.compareHighCards(that)
+    if (this.rank === HandRank.PAIR) return this.comparePairs(that)
+    return 0
+  }
+
+  compareHighCards(that: Hand) {
     for (let i in this.cards) {
       const thisCard = this.cards[i] as Card
       const thatCard = that.cards[i] as Card
@@ -22,6 +28,20 @@ export class Hand {
       if (comparison !== 0) return comparison
     }
     return 0
+  }
+
+  comparePairs(that: Hand) {
+    function getPairRank(hand: Hand): Rank {
+      for (let rank of hand.rankHistogram.keys()) {
+        if (hand.rankHistogram.get(rank) === 2) return rank
+      }
+      return Rank.TWO // should never execute
+    }
+
+    let thisPairRank = getPairRank(this)
+    let thatPairRank = getPairRank(that)
+    let difference = thisPairRank.value - thatPairRank.value
+    return difference === 0 ? this.compareHighCards(that) : difference
   }
 
   get rank() {

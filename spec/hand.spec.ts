@@ -53,4 +53,13 @@ describe('Hand', () => {
   it('identifies five of a kind', () => expect(fiveOfAKind.rank).toBe(HandRank.FIVE_OF_A_KIND))
 
   test('a pair beats high card', () => expect(pair.compareTo(highCard)).toBePositive())
+  test('two pair beats pair', () => expect(twoPair.compareTo(pair)).toBePositive())
+  test('three of a kind beats two pair', () => expect(threeOfAKind.compareTo(twoPair)).toBePositive())
+  test('straight three of a kind', () => expect(straightAceHigh.compareTo(threeOfAKind)).toBePositive())
+  test('flush beats straight', () => expect(flush.compareTo(straightAceHigh)).toBePositive())
+  test('full house beats flush', () => expect(fullHouse.compareTo(flush)).toBePositive())
+  test('four of a kind beats full house', () => expect(fourOfAKind.compareTo(fullHouse)).toBePositive())
+  test('straight flush beats four of a kind', () => expect(straightFlush.compareTo(fourOfAKind)).toBePositive())
+  test('royal flush beats straight flush', () => expect(royalFlush.compareTo(straightFlush)).toBePositive())
+  test('five of a kind beats royal flush', () => expect(fiveOfAKind.compareTo(royalFlush)).toBePositive())
 })
