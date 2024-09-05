@@ -1,7 +1,6 @@
 {
-  "name": "evercraft-ts",
+  "name": "poker-ts",
   "version": "1.0.0",
-  "description": "Implementing the Evercraft Kata with TypeScript.",
   "type": "module",
   "scripts": {
     "build": "tsup",
@@ -9,7 +8,7 @@
   },
   "tsup": {
     "entry": [
-      "lib/evercraft.ts"
+      "lib/poker.ts"
     ],
     "clean": true,
     "dts": true
@@ -22,5 +21,6 @@
     "tsup": "^8.2.3",
     "typescript": "^5.5.4",
     "vitest": "^2.0.5"
-  }
+  },
+  "private": true
 }
